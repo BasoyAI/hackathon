@@ -231,7 +231,7 @@ class StartPage extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: Text(
-                              'Read',
+                              'Ger derse Fuzûlî ki güzellerde vefâ var Aldanma ki şair sözü elbette yalandır',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color(0xFF83899F),
