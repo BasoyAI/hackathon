@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon/pages/main_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,10 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Double Tap Word'),
-        ),
-        body: WordDoubleTap(),
+        body:StartPage() ,
       ),
     );
   }
