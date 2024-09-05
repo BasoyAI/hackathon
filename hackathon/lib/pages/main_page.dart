@@ -59,7 +59,7 @@ class StartPage extends StatelessWidget {
                                 height: 10.67,
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/logo.png"),  // Replace with AssetImage
+                                    image: AssetImage("assets/logo.png"),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -188,35 +188,37 @@ class StartPage extends StatelessWidget {
                       Container(
                         width: 360,
                         height: 56,
-                        child: Stack(
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                        ),
+                        child: Row(
                           children: [
-                            Container(
-                              width: 360,
-                              height: 56,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: ShapeDecoration(
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(28),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 20,
-                              top: 15,
-                              child: SizedBox(
-                                width: 259,
-                                child: Text(
-                                  'Arama Yapmak İçin Tıklayınız',
-                                  style: TextStyle(
-                                    color: Colors.black.withOpacity(0.46000000834465027),
+                            Expanded(
+                              child: TextField(
+                                textAlign: TextAlign.center,  // Ortalama için eklendi
+                                decoration: InputDecoration(
+                                  hintText: 'Arama Yapmak İçin Tıklayınız',
+                                  hintStyle: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
                                     fontSize: 18,
                                     fontFamily: 'Roboto',
                                     fontWeight: FontWeight.w500,
-                                    height: 0,
-                                    letterSpacing: 0.15,
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15,
                                   ),
                                 ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.black.withOpacity(0.6),
                               ),
                             ),
                           ],
@@ -249,8 +251,7 @@ class StartPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-            ],
+            children: [],
           ),
         ],
       ),
