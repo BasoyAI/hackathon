@@ -6,15 +6,19 @@ class AnalysePage extends StatefulWidget {
 }
 
 class _AnalysePageState extends State<AnalysePage> {
-
   List<Map<String, String>> analizList = [
     {"role": "assistant", "text": "ANALİZ 1 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
     {"role": "assistant", "text": "ANALİZ 2 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
     {"role": "assistant", "text": "ANALİZ 3 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
     {"role": "assistant", "text": "ANALİZ 4 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
-    {"role": "user", "text":"Thanks for the info you're the best"},
+    {"role": "user", "text": "Thanks for the info you're the best"},
     {"role": "assistant", "text": "ANALİZ 4 The Dursleys had a small son called Du"},
   ];
+
+  // Her mesaj için like ve dislike durumlarını takip eden listeler
+  List<bool> likedList = List<bool>.filled(6, false);
+  List<bool> dislikedList = List<bool>.filled(6, false);
+  List<bool> buttonDisabledList = List<bool>.filled(6, false); // Butonları devre dışı bırakma durumu
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +59,13 @@ class _AnalysePageState extends State<AnalysePage> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: analizList.map((item) {
-                      String role = item['role']!;
-                      String text = item['text']!;
+                    children: analizList.asMap().entries.map((entry) {
+                      int index = entry.key;
+                      String role = entry.value['role']!;
+                      String text = entry.value['text']!;
                       return Column(
                         children: [
-                          _buildAnalizContainer(role, text),
+                          _buildAnalizContainer(role, text, index),
                           SizedBox(height: 8),
                         ],
                       );
@@ -128,7 +133,7 @@ class _AnalysePageState extends State<AnalysePage> {
     );
   }
 
-  Widget _buildAnalizContainer(String role, String text) {
+  Widget _buildAnalizContainer(String role, String text, int index) {
     Color containerColor;
     Color textColor;
     Alignment alignment;
@@ -157,14 +162,56 @@ class _AnalysePageState extends State<AnalysePage> {
           borderRadius: BorderRadius.circular(20),
         ),
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: textColor,
-          fontSize: 18,
-          fontFamily: 'AbhayaLibre',
-          fontWeight: FontWeight.w800,
-        ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 32.0), // İkonların yazı ile çakışmaması için boşluk
+            child: Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontSize: 18,
+                fontFamily: 'AbhayaLibre',
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          if (role == 'assistant') // Sadece AI mesajlarında ikonları göster
+            Positioned(
+              bottom: -8,
+              right: 0,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.thumb_up_alt_outlined,
+                      color: likedList[index] ? Colors.green : Color(0xFFEAD6CA),
+                    ),
+                    onPressed: buttonDisabledList[index] ? null : () {
+                      setState(() {
+                        likedList[index] = true;
+                        dislikedList[index] = false;
+                        buttonDisabledList[index] = true; // Butonlar devre dışı
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.thumb_down_alt_outlined,
+                      color: dislikedList[index] ? Colors.red : Color(0xFFEAD6CA),
+                    ),
+                    onPressed: buttonDisabledList[index] ? null : () {
+                      setState(() {
+                        dislikedList[index] = true;
+                        likedList[index] = false;
+                        buttonDisabledList[index] = true; // Butonlar devre dışı
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }
