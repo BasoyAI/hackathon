@@ -22,6 +22,14 @@ class _AnalysePageState extends State<AnalysePage> {
   List<bool> dislikedList = List<bool>.filled(6, false);
   List<bool> buttonDisabledList = List<bool>.filled(6, false);
 
+
+  @override
+  void initState(){
+    super.initState();
+
+
+  }
+
   // Dosya yolunu bulma
   Future<String> getFilePath() async {
     Directory directory = await getApplicationDocumentsDirectory();

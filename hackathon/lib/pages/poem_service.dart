@@ -7,6 +7,7 @@ class PoemService {
   String? century;
   String? monarch;
   String? etymology;
+  String? sentimentAnalysis;
   List<Map<String, String>> chatHistory = [];
 
   PoemService();
@@ -29,6 +30,9 @@ class PoemService {
 
     Map<String, dynamic> etymologyData = await getEtymology(text);
     etymology = etymologyData['choices'][0]['text'];
+
+    Map<String, dynamic> sentimentAnalysisData = await getSentimentAnalysis(text);
+    sentimentAnalysis = etymologyData['choices'][0]['text'];
   }
 
   int getWordCount(String text) {
@@ -118,6 +122,23 @@ class PoemService {
     final response = await ModelT3AIle.sendRequest(json_data);
     String EtymologyName = response['choices'][0]['text'];
     print("AI'den Gelen Yanıt 3 : $EtymologyName");
+    return response;
+  }
+
+  // selected text !!
+  Future<Map<String, dynamic>> getSentimentAnalysis(String selectedText) async {
+    var json_data = [
+      {
+        "role": "system",
+        "content":
+        "Sen divan edebiyatında uzman bir şiir yorumcususun. Sana verilen herhangi bir beyitin anlamsal analizini yap.",
+      },
+      {"role": "user", "content": selectedText},
+    ];
+
+    final response = await ModelT3AIle.sendRequest(json_data);
+    String EtymologyName = response['choices'][0]['text'];
+    print("AI'den Gelen Yanıt 4 : $EtymologyName");
     return response;
   }
 }
