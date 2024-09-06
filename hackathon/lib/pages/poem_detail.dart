@@ -95,7 +95,7 @@ class _PoemDetailState extends State<PoemDetail> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
-                fontFamily: 'AbhayaLibre',
+                fontFamily: 'Roboto',
                 fontWeight: FontWeight.w800,
               ),
             ),
