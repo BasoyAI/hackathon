@@ -12,7 +12,7 @@ class _AnalysePageState extends State<AnalysePage> {
     {"role": "assistant", "text": "ANALİZ 2 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
     {"role": "assistant", "text": "ANALİZ 3 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
     {"role": "assistant", "text": "ANALİZ 4 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
-    {"role": "user", "text":"Thanks for the info"},
+    {"role": "user", "text":"Thanks for the info you're the best"},
     {"role": "assistant", "text": "ANALİZ 4 The Dursleys had a small son called Du"},
   ];
 
@@ -131,17 +131,24 @@ class _AnalysePageState extends State<AnalysePage> {
   Widget _buildAnalizContainer(String role, String text) {
     Color containerColor;
     Color textColor;
+    Alignment alignment;
+    EdgeInsets margin;
+
     if (role == 'assistant') {
       containerColor = Color(0xFF21252F); // Color for assistant
       textColor = Colors.white;
+      alignment = Alignment.centerLeft; // Sola hizalama
+      margin = EdgeInsets.only(left: 20, right: 90); // Sağdan boşluk bırak
     } else {
       containerColor = Color(0xFFEAD6CA); // Color for user
       textColor = Colors.black;
+      alignment = Alignment.centerRight; // Sağa hizalama
+      margin = EdgeInsets.only(left: 160, right: 20); // Kullanıcı mesajlarını tamamen sağa yasla
     }
 
     return Container(
-      alignment: Alignment.centerRight,
-      margin: EdgeInsets.symmetric(horizontal: 20),
+      alignment: alignment,
+      margin: margin,
       padding: const EdgeInsets.all(16),
       decoration: ShapeDecoration(
         color: containerColor,
@@ -154,7 +161,7 @@ class _AnalysePageState extends State<AnalysePage> {
         text,
         style: TextStyle(
           color: textColor,
-          fontSize: 20,
+          fontSize: 18,
           fontFamily: 'AbhayaLibre',
           fontWeight: FontWeight.w800,
         ),
