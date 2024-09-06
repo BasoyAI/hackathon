@@ -35,6 +35,7 @@ class AnalysePage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20), // Back button ile analiz kutusu arasına boşluk ekliyoruz
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
