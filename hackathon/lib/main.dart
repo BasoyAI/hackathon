@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body:PageViewExample() ,
+        body: PageViewExample(),
       ),
     );
   }
@@ -33,8 +33,7 @@ class _WordDoubleTapState extends State<WordDoubleTap> {
   @override
   void initState() {
     super.initState();
-    _textFieldController.text =
-    "This is an example text for double-ta";
+    _textFieldController.text = "This is an example text for double-ta";
   }
 
   void _handleDoubleTap(TapDownDetails details) {

@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon/pages/poem_service.dart';
+import 'page_controller.dart';
 
-class InputPage extends StatelessWidget {
+class InputPage extends StatefulWidget {
+  final PageController pageController;
+
+  InputPage({required this.pageController});
+
+  @override
+  State<InputPage> createState() => _InputPageState();
+}
+
+class _InputPageState extends State<InputPage> {
+  @override
+  void initState() {
+    super.initState();
+    PoemService poemService = new PoemService();
+    String text =
+        "Kamu bîmârına cânân deva-yı derd eder ihsan\n Niçün kılmaz bana derman beni bîmar sanmaz mı";
+
+    poemService.getPoemNameJSON(text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -10,24 +31,33 @@ class InputPage extends StatelessWidget {
           color: Color(0xFF14161B),
           child: Column(
             children: [
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 alignment: FractionalOffset.bottomLeft,
-                height: 40, // Fixed height for the button container
-                color: Color(0xFF14161B), // Background color
+                height: 40,
+                // Fixed height for the button container
+                color: Color(0xFF14161B),
+                // Background color
                 child: Container(
                   decoration: ShapeDecoration(
                     color: Color(0xFFDDD9C8), // Background color for the button
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-      // Makes the background round
+                    // Makes the background round
                   ),
                   child: IconButton(
                     icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
                     onPressed: () {
-                      // Add your back button logic here
+                      // Use the passed pageController to animate to the first page
+                      widget.pageController.animateToPage(
+                        0, // Go to the first page (index 0)
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeIn,
+                      );
                     },
                   ),
                 ),
@@ -70,12 +100,12 @@ class InputPage extends StatelessWidget {
                     // Backward button with background color
                     Container(
                       decoration: ShapeDecoration(
-                        color:
-                            Color(0xFFDDD9C8), // Background color for the button
+                        color: Color(
+                            0xFFDDD9C8), // Background color for the button
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-      // Makes the background round
+                        // Makes the background round
                       ),
                       child: IconButton(
                         icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
@@ -96,15 +126,16 @@ class InputPage extends StatelessWidget {
                     // Forward button with background color
                     Container(
                       decoration: ShapeDecoration(
-                        color:
-                            Color(0xFFDDD9C8), // Background color for the button
+                        color: Color(
+                            0xFFDDD9C8), // Background color for the button
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-      // Makes the background round
+                        // Makes the background round
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_forward, color: Color(0xFF14161B)),
+                        icon:
+                            Icon(Icons.arrow_forward, color: Color(0xFF14161B)),
                         onPressed: () {
                           // Add your forward button logic here
                         },

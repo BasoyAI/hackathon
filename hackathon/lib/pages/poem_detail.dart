@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon/pages/poem_service.dart';
 
 class PoemDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: true, // Klavye açıldığında ekran kaydırılabilir olacak
+        resizeToAvoidBottomInset:
+            true, // Klavye açıldığında ekran kaydırılabilir olacak
         body: Container(
           width: double.infinity,
           height: 800,
@@ -46,13 +48,15 @@ class PoemDetail extends StatelessWidget {
                       const SizedBox(height: 8),
                       buildInfoCard('Şair', 'Fuzuli'),
                       const SizedBox(height: 8),
-                      buildInfoCard('Şiir İsmi', 'Vefa Her Kimseden Kim İstedim Ondan Cefa Gördüm'),
+                      buildInfoCard('Şiir İsmi',
+                          'Vefa Her Kimseden Kim İstedim Ondan Cefa Gördüm'),
                       const SizedBox(height: 8),
                       buildInfoCard('Yazıldığı Yüzyıl', '16. yy'),
                       const SizedBox(height: 8),
                       buildInfoCard('Hangi Padişah Döneminde', 'II. Selim'),
                       const SizedBox(height: 8),
-                      buildInfoCard('Etimolojik İnceleme', 'Lütfen Kelime Seçiniz'),
+                      buildInfoCard(
+                          'Etimolojik İnceleme', 'Lütfen Kelime Seçiniz'),
                     ],
                   ),
                 ),

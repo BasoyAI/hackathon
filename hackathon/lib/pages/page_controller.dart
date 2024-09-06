@@ -18,7 +18,7 @@ class _PageViewExampleState extends State<PageViewExample> {
         controller: _pageController,
         children: <Widget>[
           AnalysePage(),
-          InputPage(),
+          InputPage(pageController: _pageController),
           PoemDetail(),
         ],
       ),
