@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 
-class AnalysePage extends StatelessWidget {
+class AnalysePage extends StatefulWidget {
+  @override
+  State<AnalysePage> createState() => _AnalysePageState();
+}
+
+class _AnalysePageState extends State<AnalysePage> {
+
+  List<Map<String, String>> analizList = [
+    {"role": "assistant", "text": "ANALİZ 1 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
+    {"role": "assistant", "text": "ANALİZ 2 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
+    {"role": "assistant", "text": "ANALİZ 3 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
+    {"role": "assistant", "text": "ANALİZ 4 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere."},
+    {"role": "user", "text":"Thanks for the info"},
+    {"role": "assistant", "text": "ANALİZ 4 The Dursleys had a small son called Du"},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,25 +52,22 @@ class AnalysePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20), // Back button ile analiz kutusu arasına boşluk ekliyoruz
-
-              // İçeriklerin yer aldığı kısım, ekranın yukarısında kalacak
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [
-                      _buildAnalizContainer('ANALİZ 1 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere.'),
-                      SizedBox(height: 8),
-                      _buildAnalizContainer('ANALİZ 2 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere.'),
-                      SizedBox(height: 8),
-                      _buildAnalizContainer('ANALİZ 3 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere.'),
-                      SizedBox(height: 8),
-                      _buildAnalizContainer('ANALİZ 4 - The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere.'),
-                      SizedBox(height: 8),
-                    ],
+                    children: analizList.map((item) {
+                      String role = item['role']!;
+                      String text = item['text']!;
+                      return Column(
+                        children: [
+                          _buildAnalizContainer(role, text),
+                          SizedBox(height: 8),
+                        ],
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
-
               // Arama TextField'ı ekranın en alt kısmında olacak şekilde konumlandırıldı
               Container(
                 width: double.infinity,
@@ -68,7 +80,7 @@ class AnalysePage extends StatelessWidget {
                       width: 360,
                       height: 56,
                       decoration: ShapeDecoration(
-                        color: Colors.white,
+                        color: Color(0xFFEAD6CA),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
                         ),
@@ -116,12 +128,23 @@ class AnalysePage extends StatelessWidget {
     );
   }
 
-  Widget _buildAnalizContainer(String text) {
+  Widget _buildAnalizContainer(String role, String text) {
+    Color containerColor;
+    Color textColor;
+    if (role == 'assistant') {
+      containerColor = Color(0xFF21252F); // Color for assistant
+      textColor = Colors.white;
+    } else {
+      containerColor = Color(0xFFEAD6CA); // Color for user
+      textColor = Colors.black;
+    }
+
     return Container(
+      alignment: Alignment.centerRight,
       margin: EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(16),
       decoration: ShapeDecoration(
-        color: Color(0xFF21252F),
+        color: containerColor,
         shape: RoundedRectangleBorder(
           side: BorderSide(width: 1, color: Color(0xFF313843)),
           borderRadius: BorderRadius.circular(20),
@@ -130,7 +153,7 @@ class AnalysePage extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.white,
+          color: textColor,
           fontSize: 20,
           fontFamily: 'AbhayaLibre',
           fontWeight: FontWeight.w800,
