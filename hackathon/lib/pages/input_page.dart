@@ -4,8 +4,9 @@ import 'page_controller.dart';
 
 class InputPage extends StatefulWidget {
   final PageController pageController;
+  final String poem;
 
-  InputPage({required this.pageController});
+  const InputPage({super.key, required this.pageController, required this.poem});
 
   @override
   State<InputPage> createState() => _InputPageState();

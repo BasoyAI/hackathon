@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hackathon/pages/input_page.dart';
+import 'package:hackathon/pages/page_controller.dart';
 
 class StartPage extends StatelessWidget {
   @override
@@ -222,11 +224,22 @@ class StartPage extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 16.0),
-                                  child: Icon(
-                                    Icons.search,
-                                    color: Colors.black.withOpacity(0.6),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.search,
+                                      color: Colors.black.withOpacity(0.6),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PageViewExample(), // Replace this with the page you want to navigate to
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
+
                               ],
                             ),
                           ),
@@ -242,6 +255,80 @@ class StartPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // Figma Flutter Generator Frame11808788Widget - FRAME
+                          Container(
+                              width: 390,
+                              height: 131,
+                              decoration: BoxDecoration(
+
+                              ),
+                              child: Stack(
+                                  children: <Widget>[
+                                    Positioned(
+                                        top: 1.5,
+                                        left: 153,
+                                        child: Container(
+                                            width: 85,
+                                            height: 85,
+
+                                            child: Stack(
+                                                children: <Widget>[
+                                                  Positioned(
+                                                      top: 13.5,
+                                                      left: 19,
+                                                      child: Container(
+                                                          width: 46,
+                                                          height: 57,
+                                                          decoration: BoxDecoration(
+                                                            borderRadius : BorderRadius.only(
+                                                              topLeft: Radius.circular(7),
+                                                              topRight: Radius.circular(7),
+                                                              bottomLeft: Radius.circular(7),
+                                                              bottomRight: Radius.circular(7),
+                                                            ),
+                                                            image : DecorationImage(
+                                                                image: AssetImage('assets/logo.png'),
+                                                                fit: BoxFit.fitWidth
+                                                            ),
+                                                          )
+                                                      )
+                                                  ),Positioned(
+                                                      child: Container(
+                                                          width: 85,
+                                                          height: 85,
+                                                          decoration: BoxDecoration(
+                                                            color : Color.fromRGBO(235, 138, 83, 0.019999999552965164),
+                                                            borderRadius : BorderRadius.all(Radius.elliptical(85, 85)),
+                                                          )
+                                                      )
+                                                  ),Positioned(
+                                                      child: Container(
+                                                          width: 65,
+                                                          height: 65,
+                                                          decoration: BoxDecoration(
+                                                            color : Color.fromRGBO(226, 226, 226, 0.10000000149011612),
+                                                            borderRadius : BorderRadius.all(Radius.elliptical(65, 65)),
+                                                          )
+                                                      )
+                                                  ),
+                                                ]
+                                            )
+                                        )
+                                    ),Positioned(
+                                        top: 88,
+                                        left: 24,
+                                        child: Text('PDF yükle', textAlign: TextAlign.center, style: TextStyle(
+                                            color: Color.fromRGBO(131, 137, 159, 1),
+                                            fontFamily: 'Abhaya Libre ExtraBold',
+                                            fontSize: 20,
+                                            letterSpacing: 0,
+                                            fontWeight: FontWeight.normal,
+                                            height: 1.4
+                                        ),)
+                                    ),
+                                  ]
+                              )
+                          )
                         ],
                       ),
                     ),
