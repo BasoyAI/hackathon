@@ -35,6 +35,30 @@ class PoemService {
     wordCount = words.length;
   }
 
+  Future<Map<String, dynamic>> getLLMResponse() async {
+
+    final response = await ModelT3AIle.sendRequest(chatHistory);
+    String resContent = response['choices'][0]['text'];
+    chatHistory.add({"role": "assistant", "content": resContent});
+    return response;
+  }
+
+  Future<Map<String, dynamic>> getPoetSemanticAnalysis(String text) async {
+    chatHistory = [
+      {
+        "role": "system",
+        "content":
+        "Sen bir divan şiiri uzmanısın. Kullanıcı sana şiirin bir kısmını verecek ve sen bu şiirin ne anlattını açıklayacaksın."
+      },
+      {"role": "user", "content": text},
+    ];
+
+    final response = await ModelT3AIle.sendRequest(chatHistory);
+    String resContent = response['choices'][0]['text'];
+    chatHistory.add({"role": "assistant", "content": resContent});
+    return response;
+  }
+
   Future<Map<String, dynamic>> getPoetNameJSON(String text) async {
     var json_data = [
       {
@@ -117,7 +141,6 @@ class PoemService {
     return response;
   }
 
-  // selected text !!
 
   Future<void> loadAllData(String text, {int maxRetries = 3}) async {
     // Şair adını yüklemeye çalış
@@ -127,6 +150,14 @@ class PoemService {
         poet = poetNameData['choices'][0]['text'];
       },
       "Şair adını yükleme",
+      maxRetries,
+    );
+
+    await _loadDataWithRetry(
+          () async {
+        Map<String, dynamic> poemAnalysisData = await getPoetSemanticAnalysis(text);
+      },
+      "Analiz",
       maxRetries,
     );
 

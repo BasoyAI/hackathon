@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hackathon/main.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,13 +11,17 @@ class AnalysePage extends StatefulWidget {
 }
 
 class _AnalysePageState extends State<AnalysePage> {
-  List<Map<String, String>> analizList = [
+  /*List<Map<String, String>> analizList = [
     {"role": "assistant", "text": "ANALİZ 1 - The Dursleys had a small son called Dudley..."},
     {"role": "assistant", "text": "ANALİZ 2 - The Dursleys had a small son called Dudley..."},
     {"role": "assistant", "text": "ANALİZ 3 - The Dursleys had a small son called Dudley..."},
     {"role": "assistant", "text": "ANALİZ 4 - The Dursleys had a small son called Dudley..."},
     {"role": "user", "text": "Thanks for the info you're the best"},
-  ];
+  ];*/
+
+  late List<Map<String, String>> analizList =  [];
+  TextEditingController _textController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
 
   List<bool> likedList = List<bool>.filled(6, false);
   List<bool> dislikedList = List<bool>.filled(6, false);
@@ -27,7 +32,7 @@ class _AnalysePageState extends State<AnalysePage> {
   void initState(){
     super.initState();
 
-
+    analizList.addAll(MyApp.service.chatHistory.sublist(2, MyApp.service.chatHistory.length));
   }
 
   // Dosya yolunu bulma
@@ -132,17 +137,20 @@ class _AnalysePageState extends State<AnalysePage> {
               // Mesaj Listesi
               Expanded(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: Column(
                     children: analizList.asMap().entries.map((entry) {
                       int index = entry.key;
                       String role = entry.value['role']!;
-                      String text = entry.value['text']!;
+                      String text = entry.value['content']!;
                       return Column(
                         children: [
                           _buildAnalizContainer(role, text, index),
+
                           SizedBox(height: 8),
                         ],
                       );
+
                     }).toList(),
                   ),
                 ),
@@ -154,6 +162,22 @@ class _AnalysePageState extends State<AnalysePage> {
         ),
       ),
     );
+  }
+
+  // Function to scroll to the bottom
+  void _scrollToEnd() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 500), // Duration of the scroll animation
+      curve: Curves.easeOut, // Animation curve
+    );
+  }
+
+  // Function that waits for 100 ms before triggering the function
+  void _triggerWithDelay() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      _scrollToEnd();
+    });
   }
 
   Widget _buildAnalizContainer(String role, String text, int index) {
@@ -264,6 +288,7 @@ class _AnalysePageState extends State<AnalysePage> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
+                      controller: _textController,
                       decoration: InputDecoration(
                         hintText: 'Arama Yapmak İçin Tıklayınız',
                         hintStyle: TextStyle(
@@ -279,9 +304,21 @@ class _AnalysePageState extends State<AnalysePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.black.withOpacity(0.6),
+                  child: IconButton(
+                    onPressed: () async {
+                      var message = {"role": "user", "content": _textController.text};
+                      analizList.add(message);
+                      MyApp.service.chatHistory.add(message);
+                      await MyApp.service.getLLMResponse();
+                      analizList.add(MyApp.service.chatHistory.last);
+                      _triggerWithDelay();
+                      setState(() {
+                      });
+                    },
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.black.withOpacity(0.6),
+                    ),
                   ),
                 ),
               ],

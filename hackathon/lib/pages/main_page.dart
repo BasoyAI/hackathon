@@ -11,7 +11,13 @@ import '../main.dart';
 import 'package:archive/archive.dart';
 import 'package:archive/archive_io.dart';
 
-class StartPage extends StatelessWidget {
+class StartPage extends StatefulWidget {
+  @override
+  State<StartPage> createState() => _StartPageState();
+}
+
+class _StartPageState extends State<StartPage> {
+  TextEditingController _textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,6 +141,7 @@ class StartPage extends StatelessWidget {
                                         ),
                                         child: SingleChildScrollView(
                                           child: TextField(
+                                            controller: _textController,
                                             textAlign: TextAlign.left,
                                             maxLines: null, // Sınırsız satır
                                             minLines: 1, // Minimum 1 satır
@@ -180,6 +187,7 @@ class StartPage extends StatelessWidget {
                                             );
                                           },
                                         );
+                                        MyApp.text = _textController.text;
                                         PoemService poemService =
                                             new PoemService();
                                         await poemService
