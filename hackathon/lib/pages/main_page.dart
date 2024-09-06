@@ -200,19 +200,22 @@ class StartPage extends StatelessWidget {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: TextField(
-                                    textAlign: TextAlign.center,  // Ortalama için eklendi
-                                    decoration: InputDecoration(
-                                      hintText: 'Arama Yapmak İçin Tıklayınız',
-                                      hintStyle: TextStyle(
-                                        color: Colors.black.withOpacity(0.6),
-                                        fontSize: 18,
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(
-                                        vertical: 15,
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    child: TextField(
+                                      textAlign: TextAlign.left,  // Ortalama için eklendi
+                                      decoration: InputDecoration(
+                                        hintText: 'Arama Yapmak İçin Tıklayınız',
+                                        hintStyle: TextStyle(
+                                          color: Colors.black.withOpacity(0.6),
+                                          fontSize: 18,
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 15,
+                                        ),
                                       ),
                                     ),
                                   ),

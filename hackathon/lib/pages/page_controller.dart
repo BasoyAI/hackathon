@@ -14,14 +14,11 @@ class _PageViewExampleState extends State<PageViewExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('PageView with Stateful Widgets'),
-      ),
       body: PageView(
         controller: _pageController,
         children: <Widget>[
           FirstPage(),
-          SecondPage(),
+          InputPage(),
           ThirdPage(),
         ],
       ),
