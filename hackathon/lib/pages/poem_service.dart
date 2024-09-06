@@ -13,6 +13,7 @@ class PoemService {
 
   Future<void> init(String text) async {
     wordCount = getWordCount(text);
+    print("TEST" + wordCount.toString());
 
     Map<String, dynamic> poetNameData = await getPoetNameJSON(text);
     poet = poetNameData['choices'][0]['text'];
@@ -33,6 +34,8 @@ class PoemService {
   int getWordCount(String text) {
     List<String> words = text.split(' ');
     words = words.where((word) => word.isNotEmpty).toList();
+    print("tostr" + words.length.toString());
+    print("tostr2" + wordCount.toString());
     return words.length;
   }
 

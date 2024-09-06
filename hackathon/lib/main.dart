@@ -7,6 +7,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  static String text =
+      "Kamu bîmârına cânân deva-yı derd eder ihsan\n Niçün kılmaz bana derman beni bîmar sanmaz mı";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,6 +18,15 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    home: Scaffold(
+      body: PageViewExample(),
+    ),
+  );
 }
 
 class WordDoubleTap extends StatefulWidget {

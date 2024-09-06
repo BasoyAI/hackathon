@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/pages/poem_service.dart';
+import 'package:hackathon/main.dart';
 
 class PoemDetail extends StatefulWidget {
   @override
@@ -7,9 +8,21 @@ class PoemDetail extends StatefulWidget {
 }
 
 class _PoemDetailState extends State<PoemDetail> {
+  late PoemService poemService;
+  bool isLoading = true;
+  @override
   void initState() {
     super.initState();
-    PoemService poemService = new PoemService();
+    poemService = PoemService();
+    _initializePoemService();
+  }
+
+  Future<void> _initializePoemService() async {
+    await poemService.init(MyApp.text);
+    setState(() {
+      isLoading = false;
+    });
+    print("TEST15 - Kelime Sayısı: ${poemService.wordCount.toString()}");
   }
 
   @override
@@ -55,19 +68,21 @@ class _PoemDetailState extends State<PoemDetail> {
                   child: Column(
                     children: [
                       buildInfoCard(
-                          'Kelime Sayısı', PoemService().wordCount.toString()),
+                          'Kelime Sayısı', poemService.wordCount.toString()),
                       const SizedBox(height: 8),
-                      buildInfoCard('Şair', 'Fuzuli'),
-                      const SizedBox(height: 8),
-                      buildInfoCard('Şiir İsmi',
-                          'Vefa Her Kimseden Kim İstedim Ondan Cefa Gördüm'),
-                      const SizedBox(height: 8),
-                      buildInfoCard('Yazıldığı Yüzyıl', '16. yy'),
-                      const SizedBox(height: 8),
-                      buildInfoCard('Hangi Padişah Döneminde', 'II. Selim'),
+                      buildInfoCard('Şair', poemService.poet.toString()),
                       const SizedBox(height: 8),
                       buildInfoCard(
-                          'Etimolojik İnceleme', 'Lütfen Kelime Seçiniz'),
+                          'Şiir İsmi', poemService.poemName.toString()),
+                      const SizedBox(height: 8),
+                      buildInfoCard(
+                          'Yazıldığı Yüzyıl', poemService.century.toString()),
+                      const SizedBox(height: 8),
+                      buildInfoCard('Hangi Padişah Döneminde',
+                          poemService.monarch.toString()),
+                      const SizedBox(height: 8),
+                      buildInfoCard('Etimolojik İnceleme',
+                          poemService.etymology.toString()),
                     ],
                   ),
                 ),

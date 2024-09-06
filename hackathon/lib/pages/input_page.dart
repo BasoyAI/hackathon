@@ -16,6 +16,7 @@ class _InputPageState extends State<InputPage> {
   void initState() {
     super.initState();
     PoemService poemService = new PoemService();
+
     String text =
         "Kamu bîmârına cânân deva-yı derd eder ihsan\n Niçün kılmaz bana derman beni bîmar sanmaz mı";
   }
