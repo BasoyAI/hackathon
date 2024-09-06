@@ -5,6 +5,7 @@ class AnalysePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true, // Klavye açıldığında ekran kaydırılabilir olacak
         body: Container(
           width: 400,
           height: 844,
@@ -36,6 +37,8 @@ class AnalysePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20), // Back button ile analiz kutusu arasına boşluk ekliyoruz
+
+              // İçeriklerin yer aldığı kısım, ekranın yukarısında kalacak
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -52,6 +55,8 @@ class AnalysePage extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // Arama TextField'ı ekranın en alt kısmında olacak şekilde konumlandırıldı
               Container(
                 width: double.infinity,
                 height: 88,
@@ -63,20 +68,42 @@ class AnalysePage extends StatelessWidget {
                       width: 360,
                       height: 56,
                       decoration: ShapeDecoration(
-                        color: Color(0xFFDFD8C8),
+                        color: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
                         ),
                       ),
-                      child: Center(
-                        child: Text(
-                          'Konuşma başlatmak için tıklayınız',
-                          style: TextStyle(
-                            color: Colors.black.withOpacity(0.46),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: TextField(
+                                textAlign: TextAlign.left,  // Text sol hizalı
+                                decoration: InputDecoration(
+                                  hintText: 'Arama Yapmak İçin Tıklayınız',
+                                  hintStyle: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontSize: 18,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
