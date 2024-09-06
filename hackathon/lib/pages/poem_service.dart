@@ -7,15 +7,49 @@ class PoemService {
   String? century;
   String? monarch;
   String? etymology;
+  List<Map<String, String>> chatHistory = [];
 
-  // Empty constructor
   PoemService();
 
-  // Method to count words in the text
+  Future<void> init(String text) async {
+    wordCount = getWordCount(text);
+
+    Map<String, dynamic> poetNameData = await getPoetNameJSON(text);
+    poet = poetNameData['choices'][0]['text'];
+
+    Map<String, dynamic> poemNameData = await getPoemNameJSON(text);
+    poemName = poemNameData['choices'][0]['text'];
+
+    Map<String, dynamic> centuryData = await getCenturyJSON(text);
+    century = centuryData['choices'][0]['text'];
+
+    Map<String, dynamic> monarchData = await getMonarchJSON(text);
+    monarch = monarchData['choices'][0]['text'];
+
+    Map<String, dynamic> etymologyData = await getEtymology(text);
+    etymology = etymologyData['choices'][0]['text'];
+  }
+
   int getWordCount(String text) {
     List<String> words = text.split(' ');
     words = words.where((word) => word.isNotEmpty).toList();
     return words.length;
+  }
+
+  Future<Map<String, dynamic>> getPoetNameJSON(String text) async {
+    var json_data = [
+      {
+        "role": "system",
+        "content":
+            "Sen bir divan şiiri uzmanısın. Kullanıcı sana şiirin bir kısmını verecek ve sen bu şairin adını söyleyeceksin."
+      },
+      {"role": "user", "content": text},
+    ];
+
+    final response = await ModelT3AIle.sendRequest(json_data);
+    String poetName = response['choices'][0]['text'];
+    print("AI'den Gelen Yanıt 1: $poetName");
+    return response;
   }
 
   // Method to get the poem name using AI (async method)
@@ -29,34 +63,58 @@ class PoemService {
       {"role": "user", "content": text},
     ];
 
-    // Assuming `t3aIle` is initialized
-
     final response = await ModelT3AIle.sendRequest(json_data);
-    print("AI'den Gelen Yanıt: $response");
+    String poemName = response['choices'][0]['text'];
+    print("AI'den Gelen Yanıt 1: $poemName");
     return response;
   }
 
-  // Method to get the monarch period of the poem
-  void getMonarch(String text) {
-    Map<String, String> divanSystem = {
-      "system":
-          "Sen bir tarih uzmanısın. Sana verilen şiirin hangi padişah döneminde yazıldığını söyleyeceksin.",
-      "question": text
-    };
+  Future<Map<String, dynamic>> getCenturyJSON(String text) async {
+    var json_data = [
+      {
+        "role": "system",
+        "content":
+            "Sen bir tarih uzmanısın. Sana verilen şiirin hangi yüzyılda yazıldığını söyleyeceksin.",
+      },
+      {"role": "user", "content": text},
+    ];
 
-    print("System: ${divanSystem['system']}");
-    print("Question: ${divanSystem['question']}");
+    final response = await ModelT3AIle.sendRequest(json_data);
+    String century = response['choices'][0]['text'];
+    print("AI'den Gelen Yanıt 2 : $century");
+    return response;
   }
 
-  // Method to get the etymology of a word
-  void getEtymology(String selectedText) {
-    Map<String, String> divanSystem = {
-      "system":
-          "Sen bir dil bilimcisin. Sana verilen herhangi bir kelimenin etimolojik incelemesini yapacaksın.",
-      "question": selectedText
-    };
+  Future<Map<String, dynamic>> getMonarchJSON(String text) async {
+    var json_data = [
+      {
+        "role": "system",
+        "content":
+            "Sen bir tarih uzmanısın. Sana verilen şiirin hangi padişah döneminde yazıldığını söyleyeceksin.",
+      },
+      {"role": "user", "content": text},
+    ];
 
-    print("System: ${divanSystem['system']}");
-    print("Question: ${divanSystem['question']}");
+    final response = await ModelT3AIle.sendRequest(json_data);
+    String monarchName = response['choices'][0]['text'];
+    print("AI'den Gelen Yanıt 2 : $monarchName");
+    return response;
+  }
+
+  // selected text !!
+  Future<Map<String, dynamic>> getEtymology(String selectedText) async {
+    var json_data = [
+      {
+        "role": "system",
+        "content":
+            "Sen bir dil bilimcisin. Sana verilen herhangi bir kelimenin etimolojik incelemesini yapacaksın.",
+      },
+      {"role": "user", "content": selectedText},
+    ];
+
+    final response = await ModelT3AIle.sendRequest(json_data);
+    String EtymologyName = response['choices'][0]['text'];
+    print("AI'den Gelen Yanıt 3 : $EtymologyName");
+    return response;
   }
 }

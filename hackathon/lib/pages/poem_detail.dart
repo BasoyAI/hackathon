@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/pages/poem_service.dart';
 
-class PoemDetail extends StatelessWidget {
+class PoemDetail extends StatefulWidget {
+  @override
+  State<PoemDetail> createState() => _PoemDetailState();
+}
+
+class _PoemDetailState extends State<PoemDetail> {
+  void initState() {
+    super.initState();
+    PoemService poemService = new PoemService();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,7 +54,8 @@ class PoemDetail extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
-                      buildInfoCard('Kelime Sayısı', '283'),
+                      buildInfoCard(
+                          'Kelime Sayısı', PoemService().wordCount.toString()),
                       const SizedBox(height: 8),
                       buildInfoCard('Şair', 'Fuzuli'),
                       const SizedBox(height: 8),

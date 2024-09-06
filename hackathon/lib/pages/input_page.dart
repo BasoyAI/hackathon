@@ -18,8 +18,6 @@ class _InputPageState extends State<InputPage> {
     PoemService poemService = new PoemService();
     String text =
         "Kamu bîmârına cânân deva-yı derd eder ihsan\n Niçün kılmaz bana derman beni bîmar sanmaz mı";
-
-    poemService.getPoemNameJSON(text);
   }
 
   @override
