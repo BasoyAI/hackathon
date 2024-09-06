@@ -128,27 +128,6 @@ class _AnalysePageState extends State<AnalysePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10),
-              // Geri Butonu
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                alignment: FractionalOffset.bottomLeft,
-                height: 40,
-                child: Container(
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFDDD9C8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
-                    onPressed: () {
-                      // Geri butonu işlemleri
-                    },
-                  ),
-                ),
-              ),
               SizedBox(height: 20),
               // Mesaj Listesi
               Expanded(

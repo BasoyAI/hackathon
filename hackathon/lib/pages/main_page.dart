@@ -29,7 +29,7 @@ class StartPage extends StatelessWidget {
             children: [
               Container(
                 width: double.infinity,
-                height: 737,
+                height: 810,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,

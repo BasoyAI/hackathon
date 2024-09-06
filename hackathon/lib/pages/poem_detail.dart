@@ -28,27 +28,6 @@ class _PoemDetailState extends State<PoemDetail> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Geri butonu
-              SizedBox(height: 10),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                alignment: FractionalOffset.bottomLeft,
-                height: 40, // Sabit yükseklik
-                color: Color(0xFF14161B), // Arkaplan rengi
-                child: Container(
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFDDD9C8), // Butonun arka plan rengi
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
-                    onPressed: () {
-                      Navigator.pop(context); // Geri gitme fonksiyonu
-                    },
-                  ),
-                ),
-              ),
               SizedBox(height: 20),
               // Scrollable content
               Expanded(
