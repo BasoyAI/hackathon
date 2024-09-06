@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/pages/main_page.dart';
 import 'package:hackathon/pages/page_controller.dart';
+import 'package:hackathon/pages/poem_service.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,6 +10,7 @@ void main() {
 class MyApp extends StatelessWidget {
   static String text =
       "Kamu bîmârına cânân deva-yı derd eder ihsan\n Niçün kılmaz bana derman beni bîmar sanmaz mı";
+  static late PoemService service;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/pages/page_controller.dart'; // Yönlendirilecek sayfa
 import 'package:file_picker/file_picker.dart';
+import 'package:hackathon/pages/poem_service.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart'; // PDF işlemek için
 import 'dart:io';
 import 'package:xml/xml.dart' as xml;
@@ -10,13 +11,14 @@ import '../main.dart';
 import 'package:archive/archive.dart';
 import 'package:archive/archive_io.dart';
 
-
 class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // Klavye açıldığında ekran kaydırılabilir olacak
-      body: SingleChildScrollView( // Ekranın kaydırılabilir olması için eklendi
+      resizeToAvoidBottomInset:
+          true, // Klavye açıldığında ekran kaydırılabilir olacak
+      body: SingleChildScrollView(
+        // Ekranın kaydırılabilir olması için eklendi
         child: Container(
           width: 400,
           color: Color(0xFF14161B),
@@ -124,21 +126,25 @@ class StartPage extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 20),
                                       child: Container(
                                         constraints: BoxConstraints(
-                                          maxHeight: 40, // Maksimum yükseklik küçültüldü
+                                          maxHeight:
+                                              40, // Maksimum yükseklik küçültüldü
                                         ),
                                         child: SingleChildScrollView(
                                           child: TextField(
                                             textAlign: TextAlign.left,
                                             maxLines: null, // Sınırsız satır
                                             minLines: 1, // Minimum 1 satır
-                                            keyboardType: TextInputType.multiline, // Çok satırlı metin girişi
+                                            keyboardType: TextInputType
+                                                .multiline, // Çok satırlı metin girişi
                                             decoration: InputDecoration(
                                               hintText: 'Şiirinizi yazın',
                                               hintStyle: TextStyle(
-                                                color: Colors.black.withOpacity(0.6),
+                                                color: Colors.black
+                                                    .withOpacity(0.6),
                                                 fontSize: 18,
                                                 fontFamily: 'Roboto',
                                                 fontWeight: FontWeight.w500,
@@ -157,11 +163,38 @@ class StartPage extends StatelessWidget {
                                         Icons.search,
                                         color: Colors.black.withOpacity(0.6),
                                       ),
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        // Loading pop-up'ını göster
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          // Pop-up'ı kullanıcı kapatamasın
+                                          builder: (BuildContext context) {
+                                            return Dialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(), // Loading göstergesi
+                                              ),
+                                            );
+                                          },
+                                        );
+                                        PoemService poemService =
+                                            new PoemService();
+                                        await poemService
+                                            .loadAllData(MyApp.text);
+                                        poemService.getWordCount(MyApp.text);
+                                        MyApp.service = poemService;
+                                        // Pop-up'ı kapat
+                                        Navigator.pop(context);
+
+                                        // Yeni sayfaya yönlendirme
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => PageViewExample(), // Yönlendirilmek istenen sayfa
+                                            builder: (context) =>
+                                                PageViewExample(), // Hedef sayfa
                                           ),
                                         );
                                       },
@@ -188,7 +221,8 @@ class StartPage extends StatelessWidget {
                             GestureDetector(
                               onTap: () async {
                                 // Dosya seçimi ve metin çıkarma işlemi
-                                String extractedText = await _pickAndExtractText();
+                                String extractedText =
+                                    await _pickAndExtractText();
 
                                 if (extractedText.isNotEmpty) {
                                   // Dosya içeriği başarıyla okundu, main.dart'taki text değişkenini güncelliyoruz
@@ -198,12 +232,14 @@ class StartPage extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => PageViewExample(), // Yönlendirilmek istenen sayfa
+                                      builder: (context) =>
+                                          PageViewExample(), // Yönlendirilmek istenen sayfa
                                     ),
                                   );
                                 } else {
                                   // Dosya yükleme başarısız olduysa kullanıcıya hata mesajı gösteriliyor
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
                                     content: Text('Dosya içeriği yüklenemedi!'),
                                   ));
                                 }
@@ -211,18 +247,19 @@ class StartPage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
-                                    width: 85,  // Yuvarlağın boyutunu büyüttüm
-                                    height: 85,  // Yuvarlağın boyutunu büyüttüm
+                                    width: 85, // Yuvarlağın boyutunu büyüttüm
+                                    height: 85, // Yuvarlağın boyutunu büyüttüm
                                     decoration: BoxDecoration(
                                       color: Color.fromRGBO(226, 226, 226, 0.1),
-                                      shape: BoxShape.circle,  // Yuvarlak şekil
+                                      shape: BoxShape.circle, // Yuvarlak şekil
                                     ),
                                     child: ClipOval(
                                       child: Image.asset(
                                         'assets/pdf_gorsel.jpg', // Yüklediğin PDF ikonu dosyasını burada kullanıyoruz
                                         width: 85,
                                         height: 85,
-                                        fit: BoxFit.cover,  // İkonun boyutunu tam olarak yuvarlağa oturtuyoruz
+                                        fit: BoxFit
+                                            .cover, // İkonun boyutunu tam olarak yuvarlağa oturtuyoruz
                                       ),
                                     ),
                                   ),
@@ -240,7 +277,6 @@ class StartPage extends StatelessWidget {
                                 ],
                               ),
                             ),
-
                           ],
                         ),
                       ),
@@ -261,7 +297,11 @@ class StartPage extends StatelessWidget {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'docx', 'txt'], // PDF, DOCX ve TXT dosyalarını seçmek için
+        allowedExtensions: [
+          'pdf',
+          'docx',
+          'txt'
+        ], // PDF, DOCX ve TXT dosyalarını seçmek için
       );
 
       if (result != null) {

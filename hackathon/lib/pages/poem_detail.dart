@@ -8,21 +8,10 @@ class PoemDetail extends StatefulWidget {
 }
 
 class _PoemDetailState extends State<PoemDetail> {
-  late PoemService poemService;
   bool isLoading = true;
   @override
   void initState() {
     super.initState();
-    poemService = PoemService();
-    _initializePoemService();
-  }
-
-  Future<void> _initializePoemService() async {
-    await poemService.init(MyApp.text);
-    setState(() {
-      isLoading = false;
-    });
-    print("TEST15 - Kelime Sayısı: ${poemService.wordCount.toString()}");
   }
 
   @override
@@ -68,21 +57,21 @@ class _PoemDetailState extends State<PoemDetail> {
                   child: Column(
                     children: [
                       buildInfoCard(
-                          'Kelime Sayısı', poemService.wordCount.toString()),
+                          'Kelime Sayısı', MyApp.service.wordCount.toString()),
                       const SizedBox(height: 8),
-                      buildInfoCard('Şair', poemService.poet.toString()),
-                      const SizedBox(height: 8),
-                      buildInfoCard(
-                          'Şiir İsmi', poemService.poemName.toString()),
+                      buildInfoCard('Şair', MyApp.service.poet.toString()),
                       const SizedBox(height: 8),
                       buildInfoCard(
-                          'Yazıldığı Yüzyıl', poemService.century.toString()),
+                          'Şiir İsmi', MyApp.service.poemName.toString()),
+                      const SizedBox(height: 8),
+                      buildInfoCard(
+                          'Yazıldığı Yüzyıl', MyApp.service.century.toString()),
                       const SizedBox(height: 8),
                       buildInfoCard('Hangi Padişah Döneminde',
-                          poemService.monarch.toString()),
+                          MyApp.service.monarch.toString()),
                       const SizedBox(height: 8),
                       buildInfoCard('Etimolojik İnceleme',
-                          poemService.etymology.toString()),
+                          MyApp.service.etymology.toString()),
                     ],
                   ),
                 ),
