@@ -1,95 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:hackathon/pages/input_page.dart';
-import 'package:hackathon/pages/page_controller.dart';
+import 'package:hackathon/pages/page_controller.dart'; // Yönlendirilecek sayfa
+import 'package:file_picker/file_picker.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart'; // PDF işlemek için
+import 'dart:io';
+import 'package:xml/xml.dart' as xml;
+import 'package:archive/archive.dart'; // DOCX desteği için
+import 'dart:convert';
+import '../main.dart';
+import 'package:archive/archive.dart';
+import 'package:archive/archive_io.dart';
+
 
 class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,  // Klavye açıldığında ekran kaydırılabilir olacak
-      body: SingleChildScrollView(  // Ekranın kaydırılabilir olması için eklendi
+      resizeToAvoidBottomInset: true, // Klavye açıldığında ekran kaydırılabilir olacak
+      body: SingleChildScrollView( // Ekranın kaydırılabilir olması için eklendi
         child: Container(
           width: 400,
-          height: 844,
           color: Color(0xFF14161B),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: double.infinity,
                 height: 737,
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 390,
-                      height: 44,
-                      padding: const EdgeInsets.only(
-                        top: 17.17,
-                        left: 33.45,
-                        right: 20.67,
-                        bottom: 15.33,
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(child: Stack()),
-                          Container(
-                            width: 66.66,
-                            height: 11.34,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  left: 42.33,
-                                  top: 0,
-                                  child: Container(
-                                    width: 24.33,
-                                    height: 11.33,
-                                    child: Stack(),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 22.03,
-                                  top: 0,
-                                  child: Container(
-                                    width: 17,
-                                    height: 10.67,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage("assets/logo.png"),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 0,
-                                  top: 0.34,
-                                  child: Container(
-                                    width: 17,
-                                    height: 10.67,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage("assets/logo.png"),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Ortadaki logo ve başlık kısmı
                     Container(
                       width: 390,
                       height: 454,
@@ -138,30 +82,6 @@ class StartPage extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            left: 306,
-                            top: 98,
-                            child: Container(
-                              width: 18,
-                              height: 18,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFEAD6CA),
-                                shape: OvalBorder(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 58,
-                            top: 274,
-                            child: Container(
-                              width: 8,
-                              height: 8,
-                              decoration: ShapeDecoration(
-                                color: Color(0xFFEAD6CA),
-                                shape: OvalBorder(),
-                              ),
-                            ),
-                          ),
-                          Positioned(
                             left: 86,
                             top: 98,
                             child: Container(
@@ -181,153 +101,220 @@ class StartPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      width: double.infinity,
-                      height: 160,
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 360,
-                            height: 56,
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(28),
+                    // Arama çubuğu ve PDF yükleme kısmı
+                    Expanded(
+                      child: Container(
+                        width: double.infinity,
+                        height: 160,
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Çok satırlı arama çubuğu ve arama butonu
+                            Container(
+                              width: 360,
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(28),
+                                ),
                               ),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
-                                    child: TextField(
-                                      textAlign: TextAlign.left,  // Ortalama için eklendi
-                                      decoration: InputDecoration(
-                                        hintText: 'Arama Yapmak İçin Tıklayınız',
-                                        hintStyle: TextStyle(
-                                          color: Colors.black.withOpacity(0.6),
-                                          fontSize: 18,
-                                          fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.w500,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          maxHeight: 40, // Maksimum yükseklik küçültüldü
                                         ),
-                                        border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: 15,
+                                        child: SingleChildScrollView(
+                                          child: TextField(
+                                            textAlign: TextAlign.left,
+                                            maxLines: null, // Sınırsız satır
+                                            minLines: 1, // Minimum 1 satır
+                                            keyboardType: TextInputType.multiline, // Çok satırlı metin girişi
+                                            decoration: InputDecoration(
+                                              hintText: 'Şiirinizi yazın',
+                                              hintStyle: TextStyle(
+                                                color: Colors.black.withOpacity(0.6),
+                                                fontSize: 18,
+                                                fontFamily: 'Roboto',
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              border: InputBorder.none,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 16.0),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.search,
-                                      color: Colors.black.withOpacity(0.6),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16.0),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.search,
+                                        color: Colors.black.withOpacity(0.6),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PageViewExample(), // Yönlendirilmek istenen sayfa
+                                          ),
+                                        );
+                                      },
                                     ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PageViewExample(), // Replace this with the page you want to navigate to
-                                        ),
-                                      );
-                                    },
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              'Ger derse Fuzûlî ki güzellerde vefâ var Aldanma ki şair sözü elbette yalandır',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF83899F),
-                                fontSize: 20,
+                                ],
                               ),
                             ),
-                          ),
-                          // Figma Flutter Generator Frame11808788Widget - FRAME
-                          Container(
-                              width: 390,
-                              height: 30,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                  children: <Widget>[
-                                    Positioned(
-                                        top: 1.5,
-                                        left: 153,
-                                        child: Stack(
-                                            children: <Widget>[
-                                              Positioned(
-                                                  child: Container(
-                                                      width: 46,
-                                                      height: 57,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius : BorderRadius.only(
-                                                          topLeft: Radius.circular(7),
-                                                          topRight: Radius.circular(7),
-                                                          bottomLeft: Radius.circular(7),
-                                                          bottomRight: Radius.circular(7),
-                                                        ),
-                                                        image : DecorationImage(
-                                                            image: AssetImage('assets/logo.png'),
-                                                            fit: BoxFit.fitWidth
-                                                        ),
-                                                      )
-                                                  )
-                                              ),Positioned(
-                                                  child: Container(
-                                                      width: 65,
-                                                      height: 65,
-                                                      decoration: BoxDecoration(
-                                                        color : Color.fromRGBO(226, 226, 226, 0.10000000149011612),
-                                                        borderRadius : BorderRadius.all(Radius.elliptical(65, 65)),
-                                                      )
-                                                  )
-                                              ),
-                                            ]
-                                        )
-                                    ),Positioned(
-                                        top: 88,
-                                        child: Text('PDF yükle', textAlign: TextAlign.center, style: TextStyle(
-                                            color: Color.fromRGBO(131, 137, 159, 1),
-                                            fontFamily: 'Abhaya Libre ExtraBold',
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal,
-                                        ),)
+                            const SizedBox(height: 16),
+                            // Fuzuli'nin dizesi
+                            SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                'Ger derse Fuzûlî ki güzellerde vefâ var Aldanma ki şair sözü elbette yalandır',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF83899F),
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            // PDF Yükleme butonu
+                            GestureDetector(
+                              onTap: () async {
+                                // Dosya seçimi ve metin çıkarma işlemi
+                                String extractedText = await _pickAndExtractText();
+
+                                if (extractedText.isNotEmpty) {
+                                  // Dosya içeriği başarıyla okundu, main.dart'taki text değişkenini güncelliyoruz
+                                  MyApp.text = extractedText;
+
+                                  // Sayfayı yönlendirme işlemi
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PageViewExample(), // Yönlendirilmek istenen sayfa
                                     ),
-                                  ]
-                              )
-                          )
-                        ],
+                                  );
+                                } else {
+                                  // Dosya yükleme başarısız olduysa kullanıcıya hata mesajı gösteriliyor
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    content: Text('Dosya içeriği yüklenemedi!'),
+                                  ));
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 85,  // Yuvarlağın boyutunu büyüttüm
+                                    height: 85,  // Yuvarlağın boyutunu büyüttüm
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(226, 226, 226, 0.1),
+                                      shape: BoxShape.circle,  // Yuvarlak şekil
+                                    ),
+                                    child: ClipOval(
+                                      child: Image.asset(
+                                        'assets/pdf_gorsel.jpg', // Yüklediğin PDF ikonu dosyasını burada kullanıyoruz
+                                        width: 85,
+                                        height: 85,
+                                        fit: BoxFit.cover,  // İkonun boyutunu tam olarak yuvarlağa oturtuyoruz
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'PDF Yükle',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF83899F),
+                                      fontFamily: 'Abhaya Libre ExtraBold',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                width: double.infinity,
-              ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [],
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  // PDF, DOCX ve TXT içeriğini seçip okuyacak olan fonksiyon
+  Future<String> _pickAndExtractText() async {
+    String extractedText = "";
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'docx', 'txt'], // PDF, DOCX ve TXT dosyalarını seçmek için
+      );
+
+      if (result != null) {
+        File file = File(result.files.single.path!);
+        String extension = file.path.split('.').last;
+
+        if (extension == 'pdf') {
+          extractedText = await _extractTextFromPdf(file);
+        } else if (extension == 'txt') {
+          extractedText = await file.readAsString(encoding: utf8);
+        } else if (extension == 'docx') {
+          extractedText = await _extractTextFromDocx(file);
+        }
+      }
+    } catch (e) {
+      print("Hata: $e");
+    }
+
+    return extractedText; // İçerik döndürülüyor
+  }
+
+  Future<String> _extractTextFromPdf(File file) async {
+    try {
+      PdfDocument document = PdfDocument(inputBytes: await file.readAsBytes());
+      PdfTextExtractor extractor = PdfTextExtractor(document);
+      return extractor.extractText();
+    } catch (e) {
+      return 'PDF dosyasından metin çıkarılamadı: $e';
+    }
+  }
+
+  Future<String> _extractTextFromDocx(File file) async {
+    String docxText = '';
+    try {
+      final input = InputFileStream(file.path);
+      final archive = ZipDecoder().decodeBuffer(input);
+
+      for (var file in archive) {
+        if (file.name == 'word/document.xml') {
+          final content = file.content as List<int>;
+          final xmlString = utf8.decode(content);
+          docxText = _extractTextFromDocxXml(xmlString);
+          break;
+        }
+      }
+    } catch (e) {
+      return 'DOCX dosyasından metin çıkarılamadı: $e';
+    }
+    return docxText;
+  }
+
+  String _extractTextFromDocxXml(String xmlString) {
+    final document = xml.XmlDocument.parse(xmlString);
+    return document.findAllElements('w:t').map((node) => node.text).join(' ');
   }
 }
