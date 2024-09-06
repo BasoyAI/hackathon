@@ -4,99 +4,96 @@ class PoemDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        width: 400,
-        height: 800,
-        color: Color(0xFF14161B),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header container
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFDFD8C8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true, // Klavye açıldığında ekran kaydırılabilir olacak
+        body: Container(
+          width: double.infinity,
+          height: 800,
+          color: Color(0xFF14161B),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Geri butonu
+              SizedBox(height: 10),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                alignment: FractionalOffset.bottomLeft,
+                height: 40, // Sabit yükseklik
+                color: Color(0xFF14161B), // Arkaplan rengi
+                child: Container(
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFDDD9C8), // Butonun arka plan rengi
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ],
-              ),
-            ),
-            // Scrollable content
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    // Using the custom widget function with fixed width
-                    buildInfoCard('Kelime Sayısı', '283', 300),
-                    const SizedBox(height: 8),
-                    buildInfoCard('Şair', 'Fuzuli', 300),
-                    const SizedBox(height: 8),
-                    buildInfoCard('Şiir İsmi', 'Vefa Her Kimseden Kim İstedim Ondan Cefa Gördüm', 300),
-                    const SizedBox(height: 8),
-                    buildInfoCard('Yazıldığı Yüzyıl', 'yy', 300),
-                    const SizedBox(height: 8),
-                    buildInfoCard('Hangi Padişah Döneminde', 'II. Selim', 300),
-                    const SizedBox(height: 8),
-                    buildInfoCard('Etimolojik İnceleme', 'Lütfen Kelime Seçiniz', 300),
-                  ],
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
+                    onPressed: () {
+                      Navigator.pop(context); // Geri gitme fonksiyonu
+                    },
+                  ),
                 ),
               ),
-            ),
-            // Bottom container
-            Container(
-              width: 390,
-              height: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 131),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 128,
-                    height: 4,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+              SizedBox(height: 20),
+              // Scrollable content
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      buildInfoCard('Kelime Sayısı', '283'),
+                      const SizedBox(height: 8),
+                      buildInfoCard('Şair', 'Fuzuli'),
+                      const SizedBox(height: 8),
+                      buildInfoCard('Şiir İsmi', 'Vefa Her Kimseden Kim İstedim Ondan Cefa Gördüm'),
+                      const SizedBox(height: 8),
+                      buildInfoCard('Yazıldığı Yüzyıl', '16. yy'),
+                      const SizedBox(height: 8),
+                      buildInfoCard('Hangi Padişah Döneminde', 'II. Selim'),
+                      const SizedBox(height: 8),
+                      buildInfoCard('Etimolojik İnceleme', 'Lütfen Kelime Seçiniz'),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+              // Bottom container kaldırıldı
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // Refactored widget function with fixed width parameter
-  Widget buildInfoCard(String header, String answer, double width) {
-    return SizedBox(
-      width: width,
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: ShapeDecoration(
-          color: Color(0xFF14161B),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1, color: Color(0xFF313843)),
-            borderRadius: BorderRadius.circular(16),
-          ),
+  // Refactored widget function with infinity width
+  Widget buildInfoCard(String header, String answer) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: ShapeDecoration(
+        color: Color(0xFF14161B),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 1, color: Color(0xFF313843)),
+          borderRadius: BorderRadius.circular(16),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              header,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            header,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontFamily: 'AbhayaLibre',
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Opacity(
+            opacity: 0.60,
+            child: Text(
+              answer,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
@@ -104,21 +101,8 @@ class PoemDetail extends StatelessWidget {
                 fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(height: 8),
-            Opacity(
-              opacity: 0.60,
-              child: Text(
-                answer,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontFamily: 'AbhayaLibre',
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
