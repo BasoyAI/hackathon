@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hackathon/pages/FirstPage.dart';
-import 'package:hackathon/pages/SecondPage.dart';
+import 'package:hackathon/pages/analyse_page.dart';
+import 'package:hackathon/pages/input_page.dart';
 import 'package:hackathon/pages/ThirdPage.dart';
 
 class PageViewExample extends StatefulWidget {
@@ -17,7 +17,7 @@ class _PageViewExampleState extends State<PageViewExample> {
       body: PageView(
         controller: _pageController,
         children: <Widget>[
-          FirstPage(),
+          AnalysePage(),
           InputPage(),
           ThirdPage(),
         ],
