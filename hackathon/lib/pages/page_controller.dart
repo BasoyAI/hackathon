@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/pages/analyse_page.dart';
 import 'package:hackathon/pages/input_page.dart';
-import 'package:hackathon/pages/ThirdPage.dart';
+import 'package:hackathon/pages/poem_detail.dart';
 
 class PageViewExample extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _PageViewExampleState extends State<PageViewExample> {
         children: <Widget>[
           AnalysePage(),
           InputPage(),
-          ThirdPage(),
+          PoemDetail(),
         ],
       ),
     );
