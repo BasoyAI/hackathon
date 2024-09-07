@@ -17,6 +17,21 @@ Bu mobil uygulama, Osmanlı Divan şiirlerini analiz ederek, kullanıcıların b
  
 
 ## Uygulamadan Ekran Görüntüleri
+![WhatsApp Görsel 2024-09-07 saat 11 31 29_2a28196a](https://github.com/user-attachments/assets/61d9f09c-214f-4b1a-a76c-c16d0d0cb191)
+
+![WhatsApp Görsel 2024-09-07 saat 11 31 28_e3929a74](https://github.com/user-attachments/assets/e7f28719-fcd3-42c1-861d-2a725f37415e)
+
+![WhatsApp Görsel 2024-09-07 saat 11 31 29_de37093f](https://github.com/user-attachments/assets/3d435c22-7805-41b7-8a5e-4fab5e72149f)
+
+
+### SINAMA GÖREVİ EKRAN GÖRÜNTÜSÜ
+
+![WhatsApp Görsel 2024-09-07 saat 11 31 29_6993b164](https://github.com/user-attachments/assets/a0dc5801-079d-4bcf-aad9-da7b677acb1f)
+
+![image](https://github.com/user-attachments/assets/9681468a-fc05-4bdf-9609-57df8aff4b12)
+
+
+
 
 ## Uygulamayı Lokalde Çalıştırma
 
