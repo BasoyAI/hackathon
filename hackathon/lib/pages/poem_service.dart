@@ -81,7 +81,7 @@ class PoemService {
       {
         "role": "system",
         "content":
-            "Sen bir divan şiiri uzmanısın. Kullanıcı sana şiirin bir kısmını verecek ve sen bu şiirin adını söyleyeceksin."
+            "Sen bir divan şiiri uzmanı sın. Kullanıcı sana şiirin bir kısmını verecek ve sen bu şiirin adını söyleyeceksin."
       },
       {"role": "user", "content": text},
     ];

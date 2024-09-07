@@ -58,7 +58,7 @@ class _AnalysePageState extends State<AnalysePage> {
   }
 
   // Geri bildirim JSON olarak kaydet
-  Future<void> saveFeedback(int index, String rating, [String feedbackText = '', String preferredResponse = '']) async {
+  Future<void> saveFeedback(int index, String rating, [String feedbackText = '']) async {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-ddTHH:mm:ssZ').format(now);
 
@@ -67,18 +67,13 @@ class _AnalysePageState extends State<AnalysePage> {
       "user_id": "user_001",
       "timestamp": formattedDate,
       "content_generated": {
-        "input_prompt": analizList[index]['text'],
-        "response": "Sample AI Response"
+        "input_prompt": analizList[analizList.length - 2]['content'],
+        "response": analizList[analizList.length - 1]['content']
       },
       "user_feedback": {
         "rating": rating,
         "feedback_text": feedbackText,
-        "preferred_response": preferredResponse
       },
-      "feedback_metadata": {
-        "device": "mobile",
-        "session_duration": 45
-      }
     };
 
     String jsonString = jsonEncode(feedbackData);
@@ -101,7 +96,7 @@ class _AnalysePageState extends State<AnalysePage> {
           actions: [
             TextButton(
               onPressed: () {
-                saveFeedback(index, "dislike", feedbackController.text, "Daha iyi bir yanıt önerin");
+                saveFeedback(index, "dislike", feedbackController.text);
                 Navigator.of(context).pop();
               },
               child: Text("Gönder"),
