@@ -47,7 +47,7 @@ class _InputPageState extends State<InputPage> {
                     // Makes the background round
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
+                    icon: Icon(Icons.home, color: Color(0xFF14161B)),
                     onPressed: () {
                       // Use the passed pageController to animate to the first page
                       widget.pageController.animateToPage(
