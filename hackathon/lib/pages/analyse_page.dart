@@ -25,7 +25,8 @@ class _AnalysePageState extends State<AnalysePage> {
   @override
   void initState() {
     super.initState();
-    analizList.addAll(MyApp.service.chatHistory.sublist(2, MyApp.service.chatHistory.length));
+    analizList.addAll(
+        MyApp.service.chatHistory.sublist(2, MyApp.service.chatHistory.length));
   }
 
   // Dosya yolunu bulma
@@ -58,7 +59,8 @@ class _AnalysePageState extends State<AnalysePage> {
   }
 
   // Geri bildirim JSON olarak kaydet
-  Future<void> saveFeedback(int index, String rating, [String feedbackText = '', String preferredResponse = '']) async {
+  Future<void> saveFeedback(int index, String rating,
+      [String feedbackText = '', String preferredResponse = '']) async {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-ddTHH:mm:ssZ').format(now);
 
@@ -75,10 +77,7 @@ class _AnalysePageState extends State<AnalysePage> {
         "feedback_text": feedbackText,
         "preferred_response": preferredResponse
       },
-      "feedback_metadata": {
-        "device": "mobile",
-        "session_duration": 45
-      }
+      "feedback_metadata": {"device": "mobile", "session_duration": 45}
     };
 
     String jsonString = jsonEncode(feedbackData);
@@ -101,7 +100,8 @@ class _AnalysePageState extends State<AnalysePage> {
           actions: [
             TextButton(
               onPressed: () {
-                saveFeedback(index, "dislike", feedbackController.text, "Daha iyi bir yanıt önerin");
+                saveFeedback(index, "dislike", feedbackController.text,
+                    "Daha iyi bir yanıt önerin");
                 Navigator.of(context).pop();
               },
               child: Text("Gönder"),
@@ -213,7 +213,9 @@ class _AnalysePageState extends State<AnalysePage> {
                   return TextSpan(
                     text: '$word ',
                     style: TextStyle(
-                      color: selectedWord == word ? Colors.yellow : textColor, // Seçilen kelimeyi sarı yap
+                      color: selectedWord == word
+                          ? Colors.yellow
+                          : textColor, // Seçilen kelimeyi sarı yap
                       fontSize: 18,
                       fontFamily: 'AbhayaLibre',
                       fontWeight: FontWeight.w800,
@@ -239,9 +241,12 @@ class _AnalysePageState extends State<AnalysePage> {
                   IconButton(
                     icon: Icon(
                       Icons.thumb_up_alt_outlined,
-                      color: likedList[index] ? Colors.green : Color(0xFFEAD6CA),
+                      color:
+                      likedList[index] ? Colors.green : Color(0xFFEAD6CA),
                     ),
-                    onPressed: buttonDisabledList[index] ? null : () {
+                    onPressed: buttonDisabledList[index]
+                        ? null
+                        : () {
                       setState(() {
                         likedList[index] = true;
                         dislikedList[index] = false;
@@ -253,9 +258,12 @@ class _AnalysePageState extends State<AnalysePage> {
                   IconButton(
                     icon: Icon(
                       Icons.thumb_down_alt_outlined,
-                      color: dislikedList[index] ? Colors.red : Color(0xFFEAD6CA),
+                      color:
+                      dislikedList[index] ? Colors.red : Color(0xFFEAD6CA),
                     ),
-                    onPressed: buttonDisabledList[index] ? null : () {
+                    onPressed: buttonDisabledList[index]
+                        ? null
+                        : () {
                       setState(() {
                         dislikedList[index] = true;
                         likedList[index] = false;
@@ -313,7 +321,10 @@ class _AnalysePageState extends State<AnalysePage> {
                   padding: const EdgeInsets.only(right: 16.0),
                   child: IconButton(
                     onPressed: () async {
-                      var message = {"role": "user", "content": _textController.text};
+                      var message = {
+                        "role": "user",
+                        "content": _textController.text
+                      };
                       analizList.add(message);
                       MyApp.service.chatHistory.add(message);
                       await MyApp.service.getLLMResponse();
