@@ -208,18 +208,10 @@ class _AnalysePageState extends State<AnalysePage> {
                   return TextSpan(
                     text: '$word ',
                     style: TextStyle(
-                      color: selectedWord == word ? Colors.yellow : textColor, // Seçilen kelimeyi sarı yap
                       fontSize: 18,
                       fontFamily: 'AbhayaLibre',
                       fontWeight: FontWeight.w800,
                     ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        setState(() {
-                          selectedWord = word; // Seçilen kelimeyi güncelle
-                        });
-                        print('Seçilen kelime: $word');
-                      },
                   );
                 }).toList(),
               ),
