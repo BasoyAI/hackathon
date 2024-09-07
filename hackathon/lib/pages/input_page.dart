@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hackathon/main.dart';
 import 'package:hackathon/pages/main_page.dart';
@@ -16,37 +17,28 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  String? selectedWord; // Store the selected word
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // Using Scaffold for overall structure
         body: Container(
           color: Color(0xFF14161B),
           child: Column(
             children: [
-              SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: 10),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 alignment: FractionalOffset.bottomLeft,
                 height: 40,
-                // Fixed height for the button container
                 color: Color(0xFF14161B),
-                // Background color
                 child: Container(
                   decoration: ShapeDecoration(
-                    color: Color(0xFFDDD9C8), // Background color for the button
+                    color: Color(0xFFDDD9C8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    // Makes the background round
                   ),
                   child: IconButton(
                     icon: Icon(Icons.home, color: Color(0xFF14161B)),
@@ -59,10 +51,8 @@ class _InputPageState extends State<InputPage> {
                   ),
                 ),
               ),
-              // Top content
               Expanded(
                 child: SingleChildScrollView(
-                  // Enables scrolling for the main content
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Column(
@@ -70,17 +60,7 @@ class _InputPageState extends State<InputPage> {
                       children: [
                         SizedBox(
                           width: 342,
-                          child: Text(
-                            MyApp.text,
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontSize: 19,
-                              fontFamily: 'Abhaya Libre ExtraBold',
-                              fontWeight: FontWeight.w800,
-                              height: 1.5,
-                            ),
-                          ),
+                          child: _buildRichText(MyApp.text),
                         ),
                       ],
                     ),
@@ -89,32 +69,29 @@ class _InputPageState extends State<InputPage> {
               ),
               // Bottom Navigation Bar with buttons
               Container(
-                height: 88, // Fixed height for the button container
-                color: Color(0xFF14161B), // Background color
+                height: 88,
+                color: Color(0xFF14161B),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    // Backward button with background color
                     Container(
                       decoration: ShapeDecoration(
-                        color: Color(
-                            0xFFDDD9C8), // Background color for the button
+                        color: Color(0xFFDDD9C8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        // Makes the background round
                       ),
                       child: IconButton(
                         icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
                         onPressed: () {
                           widget.pageController.animateToPage(
-                              0, // Go to the first page (index 0)
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.easeIn);
+                            0,
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          );
                         },
                       ),
                     ),
-                    // Text in the middle
                     Text(
                       '6 from 1049',
                       style: TextStyle(
@@ -123,24 +100,21 @@ class _InputPageState extends State<InputPage> {
                         fontFamily: 'SF Pro Display',
                       ),
                     ),
-                    // Forward button with background color
                     Container(
                       decoration: ShapeDecoration(
-                        color: Color(
-                            0xFFDDD9C8), // Background color for the button
+                        color: Color(0xFFDDD9C8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        // Makes the background round
                       ),
                       child: IconButton(
-                        icon:
-                            Icon(Icons.arrow_forward, color: Color(0xFF14161B)),
+                        icon: Icon(Icons.arrow_forward, color: Color(0xFF14161B)),
                         onPressed: () {
                           widget.pageController.animateToPage(
-                              2, // Go to the first page (index 0)
-                              duration: Duration(milliseconds: 300),
-                              curve: Curves.easeIn);
+                            2,
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          );
                         },
                       ),
                     ),
@@ -150,6 +124,35 @@ class _InputPageState extends State<InputPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  // Build RichText widget for highlighting and printing clicked words
+  Widget _buildRichText(String text) {
+    List<String> words = text.split(' ');
+
+    return RichText(
+      text: TextSpan(
+        children: words.map((word) {
+          return TextSpan(
+            text: '$word ',
+            style: TextStyle(
+              color: selectedWord == word ? Colors.yellow : Colors.white.withOpacity(0.7),
+              fontSize: 19,
+              fontFamily: 'Abhaya Libre ExtraBold',
+              fontWeight: FontWeight.w800,
+              height: 1.5,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                setState(() {
+                  selectedWord = word;
+                });
+                print('Clicked word: $word');
+              },
+          );
+        }).toList(),
       ),
     );
   }
