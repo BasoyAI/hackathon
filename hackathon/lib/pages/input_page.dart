@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hackathon/main.dart';
+import 'package:hackathon/pages/main_page.dart';
 import 'package:hackathon/pages/poem_service.dart';
 import 'page_controller.dart';
 
@@ -7,7 +8,8 @@ class InputPage extends StatefulWidget {
   final PageController pageController;
   final String poem;
 
-  const InputPage({super.key, required this.pageController, required this.poem});
+  const InputPage(
+      {super.key, required this.pageController, required this.poem});
 
   @override
   State<InputPage> createState() => _InputPageState();
@@ -49,11 +51,9 @@ class _InputPageState extends State<InputPage> {
                   child: IconButton(
                     icon: Icon(Icons.home, color: Color(0xFF14161B)),
                     onPressed: () {
-                      // Use the passed pageController to animate to the first page
-                      widget.pageController.animateToPage(
-                        0, // Go to the first page (index 0)
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeIn,
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => StartPage()),
                       );
                     },
                   ),
@@ -107,7 +107,10 @@ class _InputPageState extends State<InputPage> {
                       child: IconButton(
                         icon: Icon(Icons.arrow_back, color: Color(0xFF14161B)),
                         onPressed: () {
-                          // Add your back button logic here
+                          widget.pageController.animateToPage(
+                              0, // Go to the first page (index 0)
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeIn);
                         },
                       ),
                     ),
@@ -134,7 +137,10 @@ class _InputPageState extends State<InputPage> {
                         icon:
                             Icon(Icons.arrow_forward, color: Color(0xFF14161B)),
                         onPressed: () {
-                          // Add your forward button logic here
+                          widget.pageController.animateToPage(
+                              2, // Go to the first page (index 0)
+                              duration: Duration(milliseconds: 300),
+                              curve: Curves.easeIn);
                         },
                       ),
                     ),
