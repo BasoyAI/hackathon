@@ -23,7 +23,7 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset:
-          true, // Klavye açıldığında ekran kaydırılabilir olacak
+      true, // Klavye açıldığında ekran kaydırılabilir olacak
       body: SingleChildScrollView(
         // Ekranın kaydırılabilir olması için eklendi
         child: Container(
@@ -134,11 +134,11 @@ class _StartPageState extends State<StartPage> {
                                   Expanded(
                                     child: Padding(
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 20),
+                                      EdgeInsets.symmetric(horizontal: 20),
                                       child: Container(
                                         constraints: BoxConstraints(
                                           maxHeight:
-                                              40, // Maksimum yükseklik küçültüldü
+                                          40, // Maksimum yükseklik küçültüldü
                                         ),
                                         child: SingleChildScrollView(
                                           child: TextField(
@@ -183,17 +183,17 @@ class _StartPageState extends State<StartPage> {
                                           builder: (BuildContext context) {
                                             return Dialog(
                                               backgroundColor:
-                                                  Colors.transparent,
+                                              Colors.transparent,
                                               child: Center(
                                                 child:
-                                                    CircularProgressIndicator(), // Loading göstergesi
+                                                CircularProgressIndicator(), // Loading göstergesi
                                               ),
                                             );
                                           },
                                         );
                                         MyApp.text = _textController.text;
                                         PoemService poemService =
-                                            new PoemService();
+                                        new PoemService();
                                         await poemService
                                             .loadAllData(MyApp.text);
                                         poemService.getWordCount(MyApp.text);
@@ -234,7 +234,7 @@ class _StartPageState extends State<StartPage> {
                               onTap: () async {
                                 // Dosya seçimi ve metin çıkarma işlemi
                                 String extractedText =
-                                    await _pickAndExtractText();
+                                await _pickAndExtractText();
 
                                 if (extractedText.isNotEmpty) {
                                   // Dosya içeriği başarıyla okundu, main.dart'taki text değişkenini güncelliyoruz
