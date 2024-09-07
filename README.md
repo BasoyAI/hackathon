@@ -59,5 +59,9 @@ Fiziksel Android veya iOS Cihazı: USB ile bağlı bir cihaz kullanıyorsanız, 
 
 Terminalden proje dizinine gidin ve aşağıdaki komutu çalıştırarak uygulamayı emülatörde veya bağlı cihazda başlatın:
 
+```
+flutter run
+```
+
 
   
