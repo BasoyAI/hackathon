@@ -242,35 +242,35 @@ class _AnalysePageState extends State<AnalysePage> {
                     icon: Icon(
                       Icons.thumb_up_alt_outlined,
                       color:
-                      likedList[index] ? Colors.green : Color(0xFFEAD6CA),
+                          likedList[index] ? Colors.green : Color(0xFFEAD6CA),
                     ),
                     onPressed: buttonDisabledList[index]
                         ? null
                         : () {
-                      setState(() {
-                        likedList[index] = true;
-                        dislikedList[index] = false;
-                        buttonDisabledList[index] = true;
-                        saveFeedback(index, "like");
-                      });
-                    },
+                            setState(() {
+                              likedList[index] = true;
+                              dislikedList[index] = false;
+                              buttonDisabledList[index] = true;
+                              saveFeedback(index, "like");
+                            });
+                          },
                   ),
                   IconButton(
                     icon: Icon(
                       Icons.thumb_down_alt_outlined,
                       color:
-                      dislikedList[index] ? Colors.red : Color(0xFFEAD6CA),
+                          dislikedList[index] ? Colors.red : Color(0xFFEAD6CA),
                     ),
                     onPressed: buttonDisabledList[index]
                         ? null
                         : () {
-                      setState(() {
-                        dislikedList[index] = true;
-                        likedList[index] = false;
-                        buttonDisabledList[index] = true;
-                      });
-                      handleDislike(index);
-                    },
+                            setState(() {
+                              dislikedList[index] = true;
+                              likedList[index] = false;
+                              buttonDisabledList[index] = true;
+                            });
+                            handleDislike(index);
+                          },
                   ),
                 ],
               ),
@@ -314,6 +314,10 @@ class _AnalysePageState extends State<AnalysePage> {
                         ),
                         border: InputBorder.none,
                       ),
+                      onChanged: (value) {
+                        selectedWord =
+                            value; // Kullanıcının girdiği değer selectedWord'a atanır
+                      },
                     ),
                   ),
                 ),

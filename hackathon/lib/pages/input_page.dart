@@ -108,7 +108,8 @@ class _InputPageState extends State<InputPage> {
                         ),
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.arrow_forward, color: Color(0xFF14161B)),
+                        icon:
+                            Icon(Icons.arrow_forward, color: Color(0xFF14161B)),
                         onPressed: () {
                           widget.pageController.animateToPage(
                             2,
@@ -138,7 +139,9 @@ class _InputPageState extends State<InputPage> {
           return TextSpan(
             text: '$word ',
             style: TextStyle(
-              color: selectedWord == word ? Colors.yellow : Colors.white.withOpacity(0.7),
+              color: selectedWord == word
+                  ? Colors.yellow
+                  : Colors.white.withOpacity(0.7),
               fontSize: 19,
               fontFamily: 'Abhaya Libre ExtraBold',
               fontWeight: FontWeight.w800,
@@ -146,8 +149,11 @@ class _InputPageState extends State<InputPage> {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                setState(() {
+                setState(() async {
                   selectedWord = word;
+                  var response = await MyApp.service
+                      .getEtymologyForSpecificWord(selectedWord.toString());
+                  MyApp.service.etymology = response['choices'][0]['text'];
                 });
                 print('Clicked word: $word');
               },

@@ -6,7 +6,7 @@ class PoemService {
   String? poemName;
   String? century;
   String? monarch;
-  String? etymology;
+  String? etymology = "Lütfen bir kelime seçin";
   String? sentimentAnalysis;
   List<Map<String, String>> chatHistory = [];
 
@@ -36,7 +36,6 @@ class PoemService {
   }
 
   Future<Map<String, dynamic>> getLLMResponse() async {
-
     final response = await ModelT3AIle.sendRequest(chatHistory);
     String resContent = response['choices'][0]['text'];
     chatHistory.add({"role": "assistant", "content": resContent});
@@ -48,7 +47,7 @@ class PoemService {
       {
         "role": "system",
         "content":
-        "Sen bir divan şiiri uzmanısın. Kullanıcı sana şiirin bir kısmını verecek ve sen bu şiirin ne anlattını açıklayacaksın."
+            "Sen bir divan şiiri uzmanısın. Kullanıcı sana şiirin bir kısmını verecek ve sen bu şiirin ne anlattını açıklayacaksın."
       },
       {"role": "user", "content": text},
     ];
@@ -137,10 +136,51 @@ class PoemService {
 
     final response = await ModelT3AIle.sendRequest(json_data);
     String EtymologyName = response['choices'][0]['text'];
+
     print("AI'den Gelen Yanıt 3 : $EtymologyName");
     return response;
   }
 
+  Future<Map<String, dynamic>> getEtymologyForSpecificWord(
+      String selectedText) async {
+    var json_data = [
+      {
+        "role": "system",
+        "content":
+            "Sen bir dil bilimcisin. Sana verilen kelimenin etimolojik incelemesini yapacaksın."
+      },
+      {
+        "role": "user",
+        "content": "Şu kelimenin etimolojik incelemesini yap: $selectedText"
+      }
+    ];
+
+    final response = await ModelT3AIle.sendRequest(json_data);
+
+    if (response != null &&
+        response['choices'] != null &&
+        response['choices'].isNotEmpty) {
+      String EtymologyName = response['choices'][0]['text'];
+
+      // If EtymologyName is null or empty, provide a default response
+      if (EtymologyName == null || EtymologyName.trim().isEmpty) {
+        EtymologyName = "Lütfen kelime seçiniz";
+      }
+
+      print("AI'den Gelen Yanıt 3 : $EtymologyName");
+
+      // Modify the response to include the default message if needed
+      response['choices'][0]['text'] = EtymologyName;
+      return response;
+    } else {
+      // If response is null or invalid, return a default message
+      return {
+        'choices': [
+          {'text': "Lütfen kelime seçiniz"}
+        ]
+      };
+    }
+  }
 
   Future<void> loadAllData(String text, {int maxRetries = 3}) async {
     // Şair adını yüklemeye çalış
@@ -154,8 +194,9 @@ class PoemService {
     );
 
     await _loadDataWithRetry(
-          () async {
-        Map<String, dynamic> poemAnalysisData = await getPoetSemanticAnalysis(text);
+      () async {
+        Map<String, dynamic> poemAnalysisData =
+            await getPoetSemanticAnalysis(text);
       },
       "Analiz",
       maxRetries,
@@ -188,16 +229,6 @@ class PoemService {
         monarch = monarchData['choices'][0]['text'];
       },
       "Padişah adını yükleme",
-      maxRetries,
-    );
-
-    // Etimoloji verisini yüklemeye çalış
-    await _loadDataWithRetry(
-      () async {
-        Map<String, dynamic> etymologyData = await getEtymology(text);
-        etymology = etymologyData['choices'][0]['text'];
-      },
-      "Etimoloji verisini yükleme",
       maxRetries,
     );
   }

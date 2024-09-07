@@ -18,6 +18,7 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   TextEditingController _textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,10 +144,13 @@ class _StartPageState extends State<StartPage> {
                                           child: TextField(
                                             controller: _textController,
                                             textAlign: TextAlign.left,
-                                            maxLines: null, // Sınırsız satır
-                                            minLines: 1, // Minimum 1 satır
-                                            keyboardType: TextInputType
-                                                .multiline, // Çok satırlı metin girişi
+                                            maxLines: null,
+                                            // Sınırsız satır
+                                            minLines: 1,
+                                            // Minimum 1 satır
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            // Çok satırlı metin girişi
                                             decoration: InputDecoration(
                                               hintText: 'Şiirinizi yazın',
                                               hintStyle: TextStyle(
@@ -263,7 +267,8 @@ class _StartPageState extends State<StartPage> {
                                     ),
                                     child: ClipOval(
                                       child: Image.asset(
-                                        'assets/pdf_gorsel.jpg', // Yüklediğin PDF ikonu dosyasını burada kullanıyoruz
+                                        'assets/pdf_gorsel.jpg',
+                                        // Yüklediğin PDF ikonu dosyasını burada kullanıyoruz
                                         width: 85,
                                         height: 85,
                                         fit: BoxFit
