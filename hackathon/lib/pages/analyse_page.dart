@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hackathon/main.dart';
 import 'package:intl/intl.dart';
@@ -11,27 +12,19 @@ class AnalysePage extends StatefulWidget {
 }
 
 class _AnalysePageState extends State<AnalysePage> {
-  /*List<Map<String, String>> analizList = [
-    {"role": "assistant", "text": "ANALİZ 1 - The Dursleys had a small son called Dudley..."},
-    {"role": "assistant", "text": "ANALİZ 2 - The Dursleys had a small son called Dudley..."},
-    {"role": "assistant", "text": "ANALİZ 3 - The Dursleys had a small son called Dudley..."},
-    {"role": "assistant", "text": "ANALİZ 4 - The Dursleys had a small son called Dudley..."},
-    {"role": "user", "text": "Thanks for the info you're the best"},
-  ];*/
-
-  late List<Map<String, String>> analizList =  [];
+  late List<Map<String, String>> analizList = [];
   TextEditingController _textController = TextEditingController();
   ScrollController _scrollController = ScrollController();
+
+  String? selectedWord; // Seçilen kelimeyi saklayacak değişken
 
   List<bool> likedList = List<bool>.filled(6, false);
   List<bool> dislikedList = List<bool>.filled(6, false);
   List<bool> buttonDisabledList = List<bool>.filled(6, false);
 
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
-
     analizList.addAll(MyApp.service.chatHistory.sublist(2, MyApp.service.chatHistory.length));
   }
 
@@ -146,11 +139,9 @@ class _AnalysePageState extends State<AnalysePage> {
                       return Column(
                         children: [
                           _buildAnalizContainer(role, text, index),
-
                           SizedBox(height: 8),
                         ],
                       );
-
                     }).toList(),
                   ),
                 ),
@@ -198,6 +189,9 @@ class _AnalysePageState extends State<AnalysePage> {
       margin = EdgeInsets.only(left: 160, right: 20);
     }
 
+    // Metni kelimelere böl
+    List<String> words = text.split(' ');
+
     return Container(
       alignment: alignment,
       margin: margin,
@@ -213,13 +207,26 @@ class _AnalysePageState extends State<AnalysePage> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 32.0),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 18,
-                fontFamily: 'AbhayaLibre',
-                fontWeight: FontWeight.w800,
+            child: RichText(
+              text: TextSpan(
+                children: words.map((word) {
+                  return TextSpan(
+                    text: '$word ',
+                    style: TextStyle(
+                      color: selectedWord == word ? Colors.yellow : textColor, // Seçilen kelimeyi sarı yap
+                      fontSize: 18,
+                      fontFamily: 'AbhayaLibre',
+                      fontWeight: FontWeight.w800,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        setState(() {
+                          selectedWord = word; // Seçilen kelimeyi güncelle
+                        });
+                        print('Seçilen kelime: $word');
+                      },
+                  );
+                }).toList(),
               ),
             ),
           ),
@@ -312,8 +319,7 @@ class _AnalysePageState extends State<AnalysePage> {
                       await MyApp.service.getLLMResponse();
                       analizList.add(MyApp.service.chatHistory.last);
                       _triggerWithDelay();
-                      setState(() {
-                      });
+                      setState(() {});
                     },
                     icon: Icon(
                       Icons.search,
